@@ -1,6 +1,4 @@
-#ifndef SORT_H
-#define SORT_H
-
+#pragma once
 #include <vector>
 #include <algorithm>
 using namespace std;
@@ -34,7 +32,7 @@ void countingsort(vector<int>& v);
 void countingsort(vector<int>& v, int mx);
 void countingsort(vector<int>& v, int mn, int mx);
 
-// bucket or radix sort - memoization - groups numbers into buckets, sorts buckets, then cocatenates buckets
+// bucket or radix sort - memoization - groups numbers into buckets, sorts buckets, then concatenates buckets
 void bucketsort(vector<int>& v, sortFunc sort, int k);
 
 // heap sort - max heap - grabs max element from heap, removes it, and restores heap variance each iteration
@@ -43,5 +41,3 @@ void heapify(vector<int>& v);
 void siftDown(vector<int>& v, int start, int end);
 
 void print(const vector<int>& v);
-
-#endif

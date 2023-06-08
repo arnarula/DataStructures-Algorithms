@@ -55,7 +55,7 @@ class RedBlackTree : public BinarySearchTree {
         // prints red black tree using directory-like notation, includes node key and color (e.g. 1B)
         void print(const TreeNode* root, int depth, ostream& os) const override;
 
-        // DEBUGGING: tests if red black tree requirements 
+        // DEBUGGING: red black tree must meet following requirements 
         bool noAdjacentReds(RBNode* root, colors parent) const;
         bool blackHeightConsistency(RBNode* root, int blackHeight, int target) const;
 

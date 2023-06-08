@@ -281,7 +281,7 @@ bool RedBlackTree::isValidRedBlackTree() const {
     return req1 && req2 && req3;
 }
 
-// requirement 1: no two nodes in red black tree are adjacent
+// requirement 1: no two red nodes in red black tree are adjacent
 bool RedBlackTree::noAdjacentReds(RBNode* root, colors parent) const {
     if (!root) return true;
     if (root->color == RED && parent == RED) return false;
