@@ -141,18 +141,14 @@ void bucketsort(vector<int>& v, sortFunc sort = countingsort, int k = 10) {
     }
 }
 
-// create max-heap from unsorted array (first step in heapsort)
 void heapify(vector<int>& v) {
-    // start at last parent node (i.e. ignore all leaves since they can't sift down)
     int start = (v.size() - 2) / 2;
-    // traverse tree bottom to top, sift all elements down while mantaining max-heap variant
     while (start >= 0) {
         siftDown(v, start, v.size() - 1);
         start--;
     }
 }
 
-// helper method: smallest element sifts down until max-heap property resatisfied
 void siftDown(vector<int>& v, int start, int end) {
     while (true) {
         int l = 2 * start + 1;
@@ -168,10 +164,8 @@ void siftDown(vector<int>& v, int start, int end) {
     }
 } 
 
-// sort vector by repeatedly sampling next max element from heap 
 void heapsort(vector<int>& v) {
     heapify(v);
-    // pick max element from heap, place at end of vector, restore heap variant, repeat
     int end = v.size() - 1;
     while (end > 0) {
         swap(v[0], v[end--]);

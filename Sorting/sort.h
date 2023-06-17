@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <algorithm>
+#include <iostream>
 using namespace std;
 
 using sortFunc = void (*)(vector<int>& args);
@@ -19,7 +20,7 @@ int partition(vector<int>& v, int l, int r, int pivot);
 void insertionsort(vector<int>& v);
 void insertionsort(vector<int>& v, int l, int r);
 
-// selection sort - iteratitve - select smallest remaining element each iteration
+// selection sort - iterative - select smallest remaining element each iteration
 void selectionsort(vector<int>& v);
 void selectionsort(vector<int>& v, int l, int r);
 
