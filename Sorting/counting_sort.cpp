@@ -11,8 +11,9 @@ void countingsort(vector<int>& v, int mn, int mx) {
     if (mn > mx) return;
     int memo[mx - mn + 1];
     memset(memo, 0, sizeof(memo));
-    for (int i = 0; i < v.size(); i++)
+    for (int i = 0; i < v.size(); i++) {
         memo[v[i] - mn]++;
+    }
     int cnt = 0;
     for (int i = 0; i < mx - mn + 1 && cnt < v.size(); i++) {
         while (memo[i]--) {

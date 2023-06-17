@@ -20,10 +20,10 @@ void dfs(std::vector<bool>& vis, int start) {
         dfs(vis, next);
 }
 
-/*   Bellman ford algorithm - time complexity O(EV): 
+/* Bellman ford algorithm - time complexity O(EV): 
 //   - finds shortest distance from start vertex to all other vertices
-//   - detects negative cycles if shortest path not reached in at most |V| - 1 iterations
-//   @params
+//   - detects negative cycles if there exists a shorter path greater than |V| - 1 in length
+// @params
 //   - edges: edge set
 //   - n: # of vertices
 //   - s: label of start vertex
@@ -78,12 +78,11 @@ bool detectNegativeCycle(std::vector<edge>& edges, int n, int start = 0) {
 
 int main() {
     int n = 3;
-    // graph represented by edge set
+    // represents graph by edge set
     std::vector<edge> edges = {{0, 1, 2}, {1, 2, 1}, {2, 0, -4}};
-    // graph represented by adjacency list
+    // represents graph by adjacency list
     for (const auto& e: edges)
         adj_list[e.from].push_back({e.to, e.weight});
-
     // run bellman ford algorithm on graph
     std::vector<bool> neg_cycle_label = negativeCycleVertices(edges, n);
     std::vector<int> neg_cycle_vertices;
