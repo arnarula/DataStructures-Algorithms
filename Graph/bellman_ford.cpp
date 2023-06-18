@@ -35,7 +35,7 @@ void dfs(std::vector<bool>& vis, int start) {
 //   - s: label of start vertex
 */
 
-// implements Bellman Ford, returns all vertices that are part of negative cycles
+// algo 1) implements Bellman Ford, returns all vertices that are part of negative cycles
 std::vector<bool> negativeCycleVertices(const std::vector<edge>& edges, int n, int start = 0) {
     // stores distances from start vertex to every other vertex
     std::vector<int> dist(n, INT_MAX);
@@ -59,7 +59,7 @@ std::vector<bool> negativeCycleVertices(const std::vector<edge>& edges, int n, i
     return cycle;
 }
 
-// implements Bellman Ford, returns true if negative cycle detected
+// algo 2) implements Bellman Ford, returns true if negative cycle detected
 bool detectNegativeCycle(const std::vector<edge>& edges, int n, int start = 0) {
     // stores distances from start vertex to every other vertex
     std::vector<int> dist(n, INT_MAX);
