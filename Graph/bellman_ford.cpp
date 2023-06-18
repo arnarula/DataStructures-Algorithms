@@ -79,6 +79,7 @@ bool detectNegativeCycle(const std::vector<edge>& edges, int n, int src = 0) {
     return false;
 }
 
+// sample test case for bellman ford algorithm
 int main() {
     int src = 0, n = 8;
     // represents graph using edge set and adjacency list
