@@ -12,6 +12,12 @@ struct edge {
 
 std::unordered_map<int, std::vector<std::pair<int, double>>> adj_list;
 
+// represents graph using adjacency list 
+void preprocessGraph(const std::vector<edge>& edges) {
+    for (const auto& e: edges)
+        adj_list[e.from].push_back({e.to, e.weight});
+}
+
 // searches for all vertices connected to a vertex which is part of a negative cycle
 void dfs(std::vector<bool>& vis, int start) {
     if (vis[start]) return;
@@ -30,7 +36,7 @@ void dfs(std::vector<bool>& vis, int start) {
 */
 
 // implements Bellman Ford, returns all vertices that are part of negative cycles
-std::vector<bool> negativeCycleVertices(std::vector<edge>& edges, int n, int start = 0) {
+std::vector<bool> negativeCycleVertices(const std::vector<edge>& edges, int n, int start = 0) {
     // stores distances from start vertex to every other vertex
     std::vector<int> dist(n, INT_MAX);
     dist[start] = 0;
@@ -54,7 +60,7 @@ std::vector<bool> negativeCycleVertices(std::vector<edge>& edges, int n, int sta
 }
 
 // implements Bellman Ford, returns true if negative cycle detected
-bool detectNegativeCycle(std::vector<edge>& edges, int n, int start = 0) {
+bool detectNegativeCycle(const std::vector<edge>& edges, int n, int start = 0) {
     // stores distances from start vertex to every other vertex
     std::vector<int> dist(n, INT_MAX);
     dist[start] = 0;
@@ -79,10 +85,8 @@ bool detectNegativeCycle(std::vector<edge>& edges, int n, int start = 0) {
 int main() {
     int n = 3;
     // represents graph by edge set
-    std::vector<edge> edges = {{0, 1, 2}, {1, 2, 1}, {2, 0, -4}};
-    // represents graph by adjacency list
-    for (const auto& e: edges)
-        adj_list[e.from].push_back({e.to, e.weight});
+    std::vector<edge> edges = {{0, 1, 2}, {1, 2, 1}, {2, 2, -3}};
+    preprocessGraph(edges);
     // run bellman ford algorithm on graph
     std::vector<bool> neg_cycle_label = negativeCycleVertices(edges, n);
     std::vector<int> neg_cycle_vertices;
