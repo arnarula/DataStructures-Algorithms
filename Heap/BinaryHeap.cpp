@@ -6,10 +6,10 @@
 #define rightChild(x) (2 * x + 2)
 #define parent(x) ((x - 1) / 2)
 
-// creates heap compatiable with any data type and comparator (max heap by default)
+// creates binary heap compatiable with any data type and comparator (max heap by default)
 // note: unlike standard priority queue implementation, the container, however, is fixed (vector)
 template <typename T, typename C = std::less<T>>
-class heap {
+class BinaryHeap {
     private:
         std::vector<T> tree;
 
