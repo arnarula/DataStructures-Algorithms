@@ -12,12 +12,6 @@ struct edge {
 
 std::unordered_map<int, std::vector<std::pair<int, double>>> adj_list;
 
-// represents graph using adjacency list 
-void preprocessGraph(const std::vector<edge>& edges) {
-    for (const auto& e: edges)
-        adj_list[e.from].push_back({e.to, e.weight});
-}
-
 // searches for all vertices connected to a vertex which is part of a negative cycle
 void dfs(std::vector<bool>& vis, int start) {
     if (vis[start]) return;
@@ -84,9 +78,10 @@ bool detectNegativeCycle(const std::vector<edge>& edges, int n, int start = 0) {
 
 int main() {
     int n = 3;
-    // represents graph by edge set
+    // represents graph using edge set and adjacency list
     std::vector<edge> edges = {{0, 1, 2}, {1, 2, 1}, {2, 2, -3}};
-    preprocessGraph(edges);
+    for (const auto& e: edges)
+        adj_list[e.from].push_back({e.to, e.weight});
     // run bellman ford algorithm on graph
     std::vector<bool> neg_cycle_label = negativeCycleVertices(edges, n);
     std::vector<int> neg_cycle_vertices;
@@ -94,6 +89,7 @@ int main() {
         if (neg_cycle_label[i])
             neg_cycle_vertices.push_back(i);
     }
+    // prints information regarding negative cycles
     if (neg_cycle_vertices.empty())
         std::cout << "No negative cycle detected!" << '\n';
     else {

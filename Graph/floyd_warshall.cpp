@@ -83,12 +83,13 @@ void checkNegCycles(int n) {
 
 int main() {
     int n = 5;
-    // graph represented by edge set
+    // process graph into adjacency matrix
     std::vector<edge> edges = {{0, 1, 2}, {1, 2, 1}, {1, 3, 4}, {3, 4, 1}, {2, 2, -3}, {0, 4, 9}};
     preprocessGraph(edges, n);
+    // run floyd warshall algorithm using adjacency matrix
     floydWarshall(n);
     checkNegCycles(n);
-    // prints information regarding shortest paths
+    // prints information regarding shortest paths between all vertex pairs
     std::cout << "Sample shortest path matrix:\n" << std::left;
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
@@ -104,9 +105,9 @@ int main() {
         }
         std::cout << '\n';
     }
-    // prints vertices in shortest path between any start and end vertex
+    // prints shortest path reconstruction between any two vertices
     std::cout << "\nSample shortest path reconstruction:\n";
-    int start = 0, end = 4;
+    int start = 0, end = 4; // arbitrarily chosen
     std::vector<int> path = constructShortestPath(start, end);
     std::cout << "Vertex " << start << " to " << end  << ": ";
     std::cout << path[0];
