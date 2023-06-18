@@ -48,8 +48,8 @@ bool RedBlackTree::remove(int val) {
         // case 3: two children - swap target info with inorder successor's, set successor to new target
         else {
             RBNode* successor = RB(RedBlackTree::findNextChild(target));
-            swap(target->key, successor->key);
-            swap(target->count, successor->count);
+            std::swap(target->key, successor->key);
+            std::swap(target->count, successor->count);
             target = successor;
         }
     }
@@ -109,7 +109,7 @@ void RedBlackTree::fixAdjacentRedViolation(RBNode* child) {
                 pivot = rotateLeft(grandparent);
             }
         }
-        swap(pivot->color, grandparent->color);
+        std::swap(pivot->color, grandparent->color);
     }
 }   
 
@@ -136,7 +136,7 @@ void RedBlackTree::fixBlackPathViolation(RBNode* child) {
     int DB_direction = (parent->right == child ? 1 : -1);
     // case 3 - sibling is red
     if (isRed(sibling)) { 
-        swap(parent->color, sibling->color);
+        std::swap(parent->color, sibling->color);
         DB_direction == 1 ? RedBlackTree::rotateRight(parent) : RedBlackTree::rotateLeft(parent); 
         RedBlackTree::fixBlackPathViolation(child);
     } 
@@ -148,13 +148,13 @@ void RedBlackTree::fixBlackPathViolation(RBNode* child) {
     }
     // case 5 - sibling & outer nephew are black, inner nephew is red
     else if (isBlack(sibling) && isRed(nephewInner) && isBlack(nephewOuter)) {
-        swap(sibling->color, nephewInner->color);
+        std::swap(sibling->color, nephewInner->color);
         DB_direction == 1 ? RedBlackTree::rotateLeft(sibling) : RedBlackTree::rotateRight(sibling);
         RedBlackTree::fixBlackPathViolation(child);
     }
     // case 6 - sibling is black, outer nephew is red
     else {
-        swap(parent->color, sibling->color);
+        std::swap(parent->color, sibling->color);
         nephewOuter->color = BLACK;
         DB_direction == 1 ? RedBlackTree::rotateRight(parent) : RedBlackTree::rotateLeft(parent); 
     }
@@ -188,7 +188,7 @@ void RedBlackTree::transferRoot(RBNode* old_root, RBNode* new_root) {
 }
 
  // returns parent, uncle, and grandparent for a given node 
-tuple<RBNode*, RBNode*, RBNode*> RedBlackTree::getUpperFamily(RBNode* child) const {
+std::tuple<RBNode*, RBNode*, RBNode*> RedBlackTree::getUpperFamily(RBNode* child) const {
     RBNode* parent = RB(child->parent);
     RBNode* grandparent = (parent ? RB(parent->parent) : nullptr);
     RBNode* uncle = nullptr;
@@ -198,11 +198,11 @@ tuple<RBNode*, RBNode*, RBNode*> RedBlackTree::getUpperFamily(RBNode* child) con
         else 
             uncle = RB(grandparent->left);
     }
-    return make_tuple(parent, uncle, grandparent);
+    return std::make_tuple(parent, uncle, grandparent);
 }
 
 // returns parent, sibling, and newphews for a given node
-tuple<RBNode*, RBNode*, RBNode*, RBNode*> RedBlackTree::getLowerFamily(RBNode* child) const {
+std::tuple<RBNode*, RBNode*, RBNode*, RBNode*> RedBlackTree::getLowerFamily(RBNode* child) const {
     RBNode* parent = RB(child->parent), *sibling = nullptr;
     if (parent) {
         if (parent->left == child)
@@ -212,8 +212,8 @@ tuple<RBNode*, RBNode*, RBNode*, RBNode*> RedBlackTree::getLowerFamily(RBNode* c
     }
     RBNode* newphewInner = (sibling ? RB(sibling->left) : nullptr);
     RBNode* newphewOuter = (sibling ? RB(sibling->right) : nullptr);
-    if (parent && sibling && parent->left == sibling) swap(newphewInner, newphewOuter);
-    return make_tuple(parent, sibling, newphewInner, newphewOuter);
+    if (parent && sibling && parent->left == sibling) std::swap(newphewInner, newphewOuter);
+    return std::make_tuple(parent, sibling, newphewInner, newphewOuter);
 }
 
 // returns number of black nodes traversed from root to any leaf (constant in RB tree)
@@ -254,9 +254,9 @@ void RedBlackTree::deleteNode(RBNode* root) {
 }
 
  // prints red black tree using directory-like notation
-void RedBlackTree::print(const TreeNode* root, int depth, ostream& os) const {
+void RedBlackTree::print(const TreeNode* root, int depth, std::ostream& os) const {
     for (int i = 0; i < depth - 1; i++) {
-        cout << "  ";
+        std::cout << "  ";
     }
     if (depth >= 1)
         os << "|-";

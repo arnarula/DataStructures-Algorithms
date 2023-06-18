@@ -3,7 +3,7 @@
 // recursively calculates height of tree
 int BinaryTree::findHeight(TreeNode* root) const {
     if (!root) return -1;
-    return max(findHeight(root->left), findHeight(root->right)) + 1;
+    return std::max(findHeight(root->left), findHeight(root->right)) + 1;
 }
 
 // returns number of edges from root node to furthest leaf

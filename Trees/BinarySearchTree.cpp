@@ -59,8 +59,8 @@ TreeNode* BinarySearchTree::removeNode(TreeNode* root, int val) {
         // CASE 3: node has two children - swap node info with inorder successor's, remove successor
         else {
             TreeNode* successor = BinarySearchTree::findNextChild(root);
-            swap(root->key, successor->key);
-            swap(root->count, successor->count);
+            std::swap(root->key, successor->key);
+            std::swap(root->count, successor->count);
             root->right = BinarySearchTree::removeNode(root->right, successor->key);
             return root;
         }
@@ -129,7 +129,7 @@ TreeNode* BinarySearchTree::findPrevChild(TreeNode* root) const {
 int BinarySearchTree::findPrev(TreeNode* root, int val,  int max_prev) const {
     if (!root) return max_prev;
     if (val > root->key) {
-        max_prev = max(max_prev, root->key);
+        max_prev = std::max(max_prev, root->key);
         return BinarySearchTree::findPrev(root->right, val, max_prev);
     } else {
         return BinarySearchTree::findPrev(root->left, val, max_prev);
@@ -153,7 +153,7 @@ TreeNode* BinarySearchTree::findNextChild(TreeNode* root) const {
 int BinarySearchTree::findNext(TreeNode* root, int val, int min_next) const {
     if (!root) return min_next;
    if (val < root->key) {
-        min_next = min(min_next, root->key);
+        min_next = std::min(min_next, root->key);
         return BinarySearchTree::findNext(root->left, val, min_next); 
    } else {
         return BinarySearchTree::findNext(root->right, val, min_next);
@@ -167,7 +167,7 @@ int BinarySearchTree::findNext(int val) const {
 // prints preorder traversal
 void BinarySearchTree::preorder(TreeNode* root) const {
     if (!root) return;
-    cout << root->key << ' ';
+    std::cout << root->key << ' ';
     BinarySearchTree::preorder(root->left);
     BinarySearchTree::preorder(root->right);
 }
@@ -180,7 +180,7 @@ void BinarySearchTree::preorder() const {
 void BinarySearchTree::inorder(TreeNode* root) const {
     if (!root) return;
     BinarySearchTree::inorder(root->left);
-    cout << root->key << ' ';
+    std::cout << root->key << ' ';
     BinarySearchTree::inorder(root->right);
 }
 
@@ -193,7 +193,7 @@ void BinarySearchTree::postorder(TreeNode* root) const {
     if (!root) return;
     BinarySearchTree::postorder(root->left);
     BinarySearchTree::postorder(root->right);
-    cout << root->key << ' ';
+    std::cout << root->key << ' ';
 }
 
 void BinarySearchTree::postorder() const {
@@ -203,13 +203,13 @@ void BinarySearchTree::postorder() const {
 // performs breadth-first search traversal
 void BinarySearchTree::BFSorder() const {
     if (!m_root) return;
-    queue<TreeNode*> q;
+    std::queue<TreeNode*> q;
     q.push(m_root);
     while (!q.empty()) {
         int size = q.size();
         for (int i = 0; i < size; i++) {
             auto node = q.front(); q.pop();
-            cout << node->key << ' ';
+            std::cout << node->key << ' ';
             if (node->left) q.push(node->left);
             if (node->right) q.push(node->right);
         }

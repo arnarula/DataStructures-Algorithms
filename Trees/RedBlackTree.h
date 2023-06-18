@@ -15,7 +15,7 @@ struct RBNode : TreeNode {
     TreeNode* parent; // parent node
     
     RBNode(int val) : color(RED), parent(nullptr), TreeNode(val) {};
-    RBNode(string NIL) : color(BLACK), parent(nullptr), TreeNode() {};
+    RBNode(std::string NIL) : color(BLACK), parent(nullptr), TreeNode() {};
     ~RBNode() { parent = nullptr; };
 };
 
@@ -42,8 +42,8 @@ class RedBlackTree : public BinarySearchTree {
         int getBlackHeight(RBNode* root) const;
         
         // returns family info (e.g. uncle, grandfather, sibling, newphews) of a node
-        tuple<RBNode*, RBNode*, RBNode*> getUpperFamily(RBNode* child) const;
-        tuple<RBNode*, RBNode*, RBNode*, RBNode*> getLowerFamily(RBNode* child) const;
+        std::tuple<RBNode*, RBNode*, RBNode*> getUpperFamily(RBNode* child) const;
+        std::tuple<RBNode*, RBNode*, RBNode*, RBNode*> getLowerFamily(RBNode* child) const;
 
         // deletes node, removing its parent connection
         void deleteNode(RBNode* root);
@@ -53,7 +53,7 @@ class RedBlackTree : public BinarySearchTree {
         void connectRight(TreeNode* root, RBNode* child);
 
         // prints red black tree using directory-like notation, includes node key and color (e.g. 1B)
-        void print(const TreeNode* root, int depth, ostream& os) const override;
+        void print(const TreeNode* root, int depth, std::ostream& os) const override;
 
         // DEBUGGING: red black tree must meet following requirements 
         bool noAdjacentReds(RBNode* root, colors parent) const;

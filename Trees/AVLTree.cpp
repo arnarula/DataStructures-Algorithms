@@ -63,8 +63,8 @@ TreeNode* AVLTree::removeNode(TreeNode* root, int val) {
         // CASE 3: node has two children - swap info with inorder successor's, delete successor
         else {
             TreeNode* successor = AVLTree::findNextChild(root);
-            swap(root->key, successor->key);
-            swap(root->count, successor->count);
+            std::swap(root->key, successor->key);
+            std::swap(root->count, successor->count);
             root->right = AVLTree::removeNode(root->right, successor->key);
             AVLTree::updateHeight(root);
             return AVLTree::rebalance(root);
@@ -136,5 +136,5 @@ void AVLTree::updateHeight(TreeNode* root) {
     int right_height = (root->right ? AVL(root->right)->height : -1);
     // balance factor = difference in heights betweem left and right subtree
     AVL(root)->balance_factor = right_height - left_height;
-    AVL(root)->height = max(left_height, right_height) + 1;
+    AVL(root)->height = std::max(left_height, right_height) + 1;
 }

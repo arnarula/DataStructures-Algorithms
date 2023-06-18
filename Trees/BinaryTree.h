@@ -1,7 +1,6 @@
 #pragma once
 #include <algorithm>
 #include <iostream>
-using namespace std;
 
 // node used in binary tree
 struct TreeNode  {
@@ -27,7 +26,7 @@ class BinaryTree {
         int m_size; // size of tree
 
         // recursively prints tree values with offset correlated to depth
-        virtual void print(const TreeNode* root, int depth, ostream& os = std::cout) const;
+        virtual void print(const TreeNode* root, int depth, std::ostream& os = std::cout) const;
 
     public:
         BinaryTree() : m_size(0), m_root(nullptr) {}
@@ -45,5 +44,5 @@ class BinaryTree {
 
         // prints tree using directory-like notation
         friend void print(const BinaryTree&);
-        friend ostream& operator<<(ostream& os, const BinaryTree& tree);
+        friend std::ostream& operator<<(std::ostream& os, const BinaryTree& tree);
 };
