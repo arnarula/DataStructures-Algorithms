@@ -15,18 +15,18 @@ void checkNegCycles(int n);
 std::vector<int> constructShortestPath(int i, int j);
 
 std::vector<std::vector<int>> adj_matrix; // adjacency matrix
-std::vector<std::vector<int>> bp_matrix; // back pointer matrix (tracks path for reconstruction)
+std::vector<std::vector<int>> fp_matrix; // foward pointer matrix (tracks path for reconstruction)
 
 // represents graph using adjacency matrix 
 void preprocessGraph(const std::vector<edge>& edges, int n) {
     adj_matrix.resize(n, std::vector<int>(n, INT_MAX));
-    bp_matrix.resize(n, std::vector<int>(n, -1));
+    fp_matrix.resize(n, std::vector<int>(n, -1));
     for (int i = 0; i < n; i++) {
         adj_matrix[i][i] = 0;
     }
     for (const auto& e: edges) {
         adj_matrix[e.from][e.to] = e.weight;
-        bp_matrix[e.from][e.to] = e.to;
+        fp_matrix[e.from][e.to] = e.to;
     }
 }
 
@@ -46,7 +46,7 @@ void floydWarshall(int n) {
                 // updates shortest path from i -> j passing through vertex k
                 if (adj_matrix[i][k] + adj_matrix[k][j] < adj_matrix[i][j]) {
                     adj_matrix[i][j] = adj_matrix[i][k] + adj_matrix[k][j];
-                    bp_matrix[i][j] = bp_matrix[i][k];
+                    fp_matrix[i][j] = fp_matrix[i][k];
                 }
             }
         }
@@ -55,12 +55,12 @@ void floydWarshall(int n) {
 
 // returns vertices traversed along shortest path from vertex i to j
 // note: if negative cycles are present, must run checkNegCycles before calling path reconstruction to prevent false paths
-std::vector<int> constructShortestPath(int i, int j) {
-    std::vector<int> path = {i};
-    int next = bp_matrix[i][j];
+std::vector<int> constructShortestPath(int src, int dest) {
+    std::vector<int> path = {src};
+    int next = fp_matrix[src][dest];
     while (next != -1) {
         path.push_back(next);
-        next = bp_matrix[next][j];
+        next = fp_matrix[next][dest];
     }
     return path;
 }
@@ -74,7 +74,7 @@ void checkNegCycles(int n) {
                 // sets path to negative infinity if negative cycle present
                 if (adj_matrix[i][k] + adj_matrix[k][j] < adj_matrix[i][j]) {
                     adj_matrix[i][j] = INT_MIN;
-                    bp_matrix[i][j] = -1;
+                    fp_matrix[i][j] = -1;
                 }
             }
         }
@@ -106,10 +106,10 @@ int main() {
         std::cout << '\n';
     }
     // prints shortest path reconstruction between any two vertices
-    std::cout << "\nSample shortest path reconstruction:\n";
-    int start = 0, end = 4; // arbitrarily chosen
-    std::vector<int> path = constructShortestPath(start, end);
-    std::cout << "Vertex " << start << " to " << end  << ": ";
+    std::cout << '\n' << "Sample shortest path reconstruction:" << '\n';
+    int src = 0, dest = 4; // arbitrarily chosen
+    std::vector<int> path = constructShortestPath(src, dest);
+    std::cout << "Vertex " << src << " to " << dest  << ": ";
     std::cout << path[0];
     for (int i = 1; i < path.size(); i++)
         std::cout << " -> " << path[i];
