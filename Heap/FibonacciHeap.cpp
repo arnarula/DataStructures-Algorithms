@@ -46,17 +46,17 @@ class FibonacciHeap {
         }
 
         // finds new min root after old min root is deleted
-        void updateMin(Node* root) {
-            Node *next = root;
+        void updateMin() {
+            Node *next = min_root, *temp = min_root;
             do {
                 if (next->key < min_root->key)
                     min_root = next;
                 next = next->right;
-            } while (next != root);
+            } while (next != temp);
         }
 
         // merges roots with same degree, ensuring fibonacci heap remains compact
-        void consolidateTrees(Node* min_root) {
+        void consolidateTrees() {
             std::vector<Node*> root_list((int) (log2(m_size)) + 1, nullptr); 
             Node* root = min_root;
             do {
@@ -151,8 +151,8 @@ class FibonacciHeap {
                 } while (next != child);
             }
             // updates new min root & merges trees with same degrees
-            updateMin(min_root);
-            consolidateTrees(min_root);
+            updateMin();
+            consolidateTrees();
         }
 
         // prints fibonacci heap using directory-like notation
@@ -163,9 +163,11 @@ class FibonacciHeap {
 
 int main() {
     FibonacciHeap heap;
-    for (int i = 1; i <= 32; i++)
+    for (int i = 1; i <= 7; i++)
         heap.push(i);
     heap.pop();
+    heap.pop();
+    // heap.pop();
     heap.print();
     return 0;
 }
