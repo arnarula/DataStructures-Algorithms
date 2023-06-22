@@ -20,9 +20,10 @@ class FibonacciHeap {
 
         // adds heap to root list
         void addHeap(Node* root) {
-            if (!min_root)
+            if (!min_root) {
                 min_root = root;
-            else
+                root->left = root->right = root;
+            } else 
                 addSibling(root, min_root);
             if (!min_root || min_root->key > root->key)
                 min_root = root;
@@ -32,7 +33,7 @@ class FibonacciHeap {
         Node* mergeHeaps(Node* root1, Node* root2) {
             if (root1->key > root2->key)
                 std::swap(root1, root2);
-            // link siblings of larger root before and after removal
+            // correct siblings of larger root before/after removal
             linkSiblings(root2->left, root2->right);
             if (root1->child)
                 addSibling(root2, root1->child);
@@ -47,6 +48,7 @@ class FibonacciHeap {
 
         // finds new min root after old min root is deleted
         void updateMin() {
+            if (!min_root) return;
             Node *next = min_root, *temp = min_root;
             do {
                 if (next->key < min_root->key)
@@ -57,6 +59,7 @@ class FibonacciHeap {
 
         // merges roots with same degree, ensuring fibonacci heap remains compact
         void consolidateTrees() {
+            if (!min_root) return;
             std::vector<Node*> root_list((int) (log2(m_size)) + 1, nullptr); 
             Node* root = min_root;
             do {
@@ -66,10 +69,11 @@ class FibonacciHeap {
                 else {
                     Node* node = root;
                     while (true) {
-                        Node* merged = mergeHeaps(node, root_list[node->degree]);
-                        root_list[node->degree] = nullptr;
-                        if (!root_list[node->degree + 1]) {
-                            root_list[node->degree + 1] = merged;
+                        int degree = node->degree;
+                        Node* merged = mergeHeaps(node, root_list[degree]);
+                        root_list[degree] = nullptr;
+                        if (!root_list[degree + 1]) {
+                            root_list[degree + 1] = merged;
                             break;
                         } else
                             node = merged;
@@ -80,13 +84,13 @@ class FibonacciHeap {
         }
 
         // helper function to connect two adjacent nodes in heap
-        void linkSiblings(Node* prev, Node* next) {
+        inline void linkSiblings(Node* prev, Node* next) {
             prev->right = next;
             next->left = prev;
         }
 
         // helper function to establish new sibling connection in heap
-        void addSibling(Node* node, Node* sibling) {
+        inline void addSibling(Node* node, Node* sibling) {
             node->right = sibling;
             node->left = sibling->left;
             sibling->left->right = node;
@@ -144,11 +148,12 @@ class FibonacciHeap {
             min_root = new_root;
             // update rest of fibonacci heap
             if (child) {
-                Node* next = child;
+                Node* temp = child;
                 do {
-                    addHeap(next);
-                    next = next->right;
-                } while (next != child);
+                    Node* next = child->right;
+                    addHeap(child);
+                    child = next;
+                } while (child != temp);
             }
             // updates new min root & merges trees with same degrees
             updateMin();
@@ -158,16 +163,22 @@ class FibonacciHeap {
         // prints fibonacci heap using directory-like notation
         void print() {
             print(min_root, 0);
+            std::cout << '\n';
         }
 };  
 
 int main() {
     FibonacciHeap heap;
-    for (int i = 1; i <= 7; i++)
-        heap.push(i);
-    heap.pop();
-    heap.pop();
-    // heap.pop();
+    for (int i = 1; i <= 11; i++)
+        heap.push((2 * i + 1) % 11);
     heap.print();
+    for (int i = 1; i <= 11; i++) {
+        heap.pop();
+        heap.print();
+    }
+    for (int i = 0; i < 10; i++)
+        heap.push(i);
+    heap.print();
+    std::cout << heap.size() << '\n';
     return 0;
 }
